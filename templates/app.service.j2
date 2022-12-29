@@ -4,12 +4,19 @@ TODO: Path to jar should use variables {{ app_dir }}/{{ app_file }}
 TODO: Environment variable for PORT should use value from variable {{ app_port }}
 #}
 [Unit]
-Description=
-Requires=
-After=
+Description=This is a Unit for Java Web Server
+Requires=network-online.target
+After=syslog.target network-online.target
 
 [Install]
 WantedBy=multi-user.target
 
 [Service]
-ExecStart=
+User=sofiia
+Group=sofiia
+Type=simple
+Environment=PORT={{ app_port }}
+ExecStart=java -jar {{ app_dir }}/{{ app_file }} --server.port={{PORT}}
+Restart=on-failure
+RestartSec=10
+
